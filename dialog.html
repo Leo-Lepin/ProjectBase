@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Диалоговое окно для общения</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f4f4f4;
+    }
+
+    .chat-container {
+      width: 400px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+    }
+
+    .chat-header {
+      background-color: #007bff;
+      color: white;
+      padding: 10px;
+      text-align: center;
+      font-size: 18px;
+    }
+
+    .chat-messages {
+      height: 300px;
+      padding: 10px;
+      overflow-y: auto;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .message {
+      margin: 10px 0;
+    }
+
+    .message.user {
+      text-align: right;
+    }
+
+    .message.user .message-text {
+      background-color: #007bff;
+      color: white;
+    }
+
+    .message.other .message-text {
+      background-color: #f1f1f1;
+      color: black;
+    }
+
+    .message-text {
+      display: inline-block;
+      padding: 10px;
+      border-radius: 10px;
+      max-width: 70%;
+    }
+
+    .chat-input {
+      display: flex;
+      padding: 10px;
+    }
+
+    .chat-input input {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      outline: none;
+    }
+
+    .chat-input button {
+      padding: 10px 20px;
+      margin-left: 10px;
+      border: none;
+      background-color: #007bff;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .chat-input button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <!-- Шапка чата -->
+    <div class="chat-header">
+      Диалог: Вы и Другой пользователь
+    </div>
+
+    <!-- Сообщения -->
+    <div class="chat-messages" id="chatMessages">
+      <!-- Сообщения будут добавляться сюда -->
+    </div>
+
+    <!-- Поле ввода и кнопка отправки -->
+    <div class="chat-input">
+      <input type="text" id="messageInput" placeholder="Введите сообщение..." />
+      <button onclick="sendMessage()">Отправить</button>
+    </div>
+  </div>
+
+  <script>
+    // Функция для добавления сообщения в чат
+    function addMessage(message, sender) {
+      const chatMessages = document.getElementById("chatMessages");
+      const messageDiv = document.createElement("div");
+      messageDiv.classList.add("message", sender === "user" ? "user" : "other");
+
+      const messageText = document.createElement("div");
+      messageText.classList.add("message-text");
+      messageText.textContent = message;
+
+      messageDiv.appendChild(messageText);
+      chatMessages.appendChild(messageDiv);
+
+      // Прокрутка вниз
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    // Функция для отправки сообщения
+    function sendMessage() {
+      const input = document.getElementById("messageInput");
+      const message = input.value.trim();
+
+      if (message) {
+        addMessage(message, "user"); // Добавляем сообщение от текущего пользователя
+        input.value = ""; // Очищаем поле ввода
+
+        // Имитация ответа от другого пользователя
+        setTimeout(() => {
+          const reply = "Это ответ от другого пользователя.";
+          addMessage(reply, "other");
+        }, 1000);
+      }
+    }
+  </script>
+</body>
+</html>
